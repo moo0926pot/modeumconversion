@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPC/PC 텍스트 변환기</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a5568;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .conversion-info {
+            background: #e6fffa;
+            border: 2px solid #81e6d9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #234e52;
+        }
+
+        .text-section {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .button-container {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .clear-btn {
+            background: linear-gradient(135deg, #fc8181 0%, #f56565 100%);
+            margin-left: 15px;
+            box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
+        }
+
+        .clear-btn:hover {
+            box-shadow: 0 6px 20px rgba(245, 101, 101, 0.4);
+        }
+
+        .output-section {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .copy-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(72, 187, 120, 0.3);
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4);
+        }
+
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+
+        .copy-message {
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .copy-message.success {
+            color: #38a169;
+            opacity: 1;
+        }
+
+        .copy-message.error {
+            color: #e53e3e;
+            opacity: 1;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #718096;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .button-container {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .clear-btn {
+                margin-left: 0;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 NPC/PC 텍스트 변환기</h1>
+        
+        <div class="conversion-info">
+            <strong>변환 규칙:</strong> NPC → {{char}} | PC → {{user}}
+        </div>
+
+        <div class="text-section">
+            <label for="inputText">원본 텍스트:</label>
+            <textarea 
+                id="inputText" 
+                placeholder="변환할 텍스트를 입력하세요...&#10;예: NPC가 PC에게 말했다."
+                oninput="convertText()"
+            ></textarea>
+        </div>
+
+        <div class="button-container">
+            <button onclick="convertText()">🔄 변환하기</button>
+            <button class="clear-btn" onclick="clearAll()">🗑️ 전체 지우기</button>
+        </div>
+
+        <div class="text-section">
+            <label for="outputText">변환된 텍스트:</label>
+            <div class="output-section">
+                <textarea 
+                    id="outputText" 
+                    placeholder="변환된 텍스트가 여기에 표시됩니다..."
+                    readonly
+                ></textarea>
+                <div class="copy-section">
+                    <button class="copy-btn" onclick="copyToClipboard()">📋 복사하기</button>
+                    <span id="copyMessage" class="copy-message"></span>
+                </div>
+                <div class="stats">
+                    <span>NPC 변환: <span id="npcCount">0</span>개</span>
+                    <span>PC 변환: <span id="pcCount">0</span>개</span>
+                    <span>총 변환: <span id="totalCount">0</span>개</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function convertText() {
+            const inputText = document.getElementById('inputText').value;
+            const outputTextarea = document.getElementById('outputText');
+            
+            if (!inputText.trim()) {
+                outputTextarea.value = '';
+                updateStats(0, 0);
+                return;
+            }
+            
+            // NPC 개수 세기 (변환 전)
+            const npcMatches = inputText.match(/NPC/g);
+            const npcCount = npcMatches ? npcMatches.length : 0;
+            
+            // 1단계: NPC를 {{char}}로 변환
+            let convertedText = inputText.replace(/NPC/g, '{{char}}');
+            
+            // PC 개수 세기 (NPC 변환 후)
+            const pcMatches = convertedText.match(/PC/g);
+            const pcCount = pcMatches ? pcMatches.length : 0;
+            
+            // 2단계: 남은 PC를 {{user}}로 변환
+            convertedText = convertedText.replace(/PC/g, '{{user}}');
+            
+            outputTextarea.value = convertedText;
+            updateStats(npcCount, pcCount);
+        }
+        
+        function updateStats(npcCount, pcCount) {
+            document.getElementById('npcCount').textContent = npcCount;
+            document.getElementById('pcCount').textContent = pcCount;
+            document.getElementById('totalCount').textContent = npcCount + pcCount;
+        }
+        
+        function clearAll() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('outputText').value = '';
+            document.getElementById('copyMessage').textContent = '';
+            document.getElementById('copyMessage').className = 'copy-message';
+            updateStats(0, 0);
+            document.getElementById('inputText').focus();
+        }
+        
+        async function copyToClipboard() {
+            const outputText = document.getElementById('outputText').value;
+            const copyMessage = document.getElementById('copyMessage');
+            
+            if (!outputText.trim()) {
+                copyMessage.textContent = '복사할 텍스트가 없습니다';
+                copyMessage.className = 'copy-message error';
+                setTimeout(() => {
+                    copyMessage.className = 'copy-message';
+                }, 2000);
+                return;
+            }
+            
+            try {
+                await navigator.clipboard.writeText(outputText);
+                copyMessage.textContent = '✅ 복사 완료!';
+                copyMessage.className = 'copy-message success';
+            } catch (err) {
+                // 클립보드 API가 실패한 경우 대안 방법 사용
+                const textArea = document.createElement('textarea');
+                textArea.value = outputText;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-9999px';
+                document.body.appendChild(textArea);
+                textArea.select();
+                
+                try {
+                    document.execCommand('copy');
+                    copyMessage.textContent = '✅ 복사 완료!';
+                    copyMessage.className = 'copy-message success';
+                } catch (fallbackErr) {
+                    copyMessage.textContent = '❌ 복사 실패';
+                    copyMessage.className = 'copy-message error';
+                }
+                
+                document.body.removeChild(textArea);
+            }
+            
+            setTimeout(() => {
+                copyMessage.className = 'copy-message';
+            }, 2000);
+        }
+        
+        // 페이지 로드 시 입력 필드에 포커스
+        window.onload = function() {
+            document.getElementById('inputText').focus();
+        };
+    </script>
+</body>
+</html>
