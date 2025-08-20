@@ -70,7 +70,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .custom-input-group {
@@ -81,6 +81,8 @@
         .custom-input-group label {
             font-size: 0.9rem;
             margin-bottom: 5px;
+            font-weight: 600;
+            color: #4a5568;
         }
 
         .custom-input-group input {
@@ -388,7 +390,7 @@
             <h1>⚙️ 커스텀 변환기</h1>
             
             <div class="conversion-info custom">
-                <strong>커스텀 규칙:</strong> 원하는 단어를 자유롭게 변환
+                <strong>커스텀 규칙:</strong> A→B, C→D 동시 변환
             </div>
 
             <div class="custom-input-section">
@@ -437,7 +439,7 @@
                 <label for="inputText3">원본 텍스트:</label>
                 <textarea 
                     id="inputText3" 
-                    placeholder="변환할 텍스트를 입력하세요...&#10;예: 안녕하세요, 고양이가 좋아요."
+                    placeholder="변환할 텍스트를 입력하세요...&#10;예: 안녕하세요, 고양이가 예뻐요."
                     oninput="convertCustom()"
                 ></textarea>
             </div>
@@ -460,10 +462,9 @@
                         <span id="copyMessage3" class="copy-message"></span>
                     </div>
                     <div class="stats">
-                        <span>A→B: <span id="customCount1">0</span>개</span>
-                        <span>C→D: <span id="customCount2">0</span>개</span>
-                        <span>총: <span id="totalCustom">0</span>개</span>
-                        <div id="customRules">규칙: -</div>
+                        <span>1세트: <span id="customCount1">0</span>개</span>
+                        <span>2세트: <span id="customCount2">0</span>개</span>
+                        <span>총: <span id="customTotalCount">0</span>개</span>
                     </div>
                 </div>
             </div>
@@ -573,14 +574,15 @@
             
             if (!inputText.trim()) {
                 outputTextarea.value = '';
-                updateCustomStats(0, 0, fromWord1, toWord1, fromWord2, toWord2);
+                updateCustomStats(0, 0);
                 return;
             }
             
             let convertedText = inputText;
-            let count1 = 0, count2 = 0;
+            let count1 = 0;
+            let count2 = 0;
             
-            // 첫 번째 변환 (A -> B)
+            // 첫 번째 세트 변환 (A → B)
             if (fromWord1.trim()) {
                 const regex1 = new RegExp(escapeRegex(fromWord1), 'g');
                 const matches1 = convertedText.match(regex1);
@@ -588,7 +590,7 @@
                 convertedText = convertedText.replace(regex1, toWord1 || '');
             }
             
-            // 두 번째 변환 (C -> D)
+            // 두 번째 세트 변환 (C → D)
             if (fromWord2.trim()) {
                 const regex2 = new RegExp(escapeRegex(fromWord2), 'g');
                 const matches2 = convertedText.match(regex2);
@@ -597,72 +599,17 @@
             }
             
             outputTextarea.value = convertedText;
-            updateCustomStats(count1, count2, fromWord1, toWord1, fromWord2, toWord2);
-        }
-        
-        function escapeRegex(string) {
-            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\        // 커스텀 변환기 함수들
-        function convertCustom() {
-            const fromWord = document.getElementById('fromWord').value;
-            const toWord = document.getElementById('toWord').value;
-            const inputText = document.getElementById('inputText3').value;
-            const outputTextarea = document.getElementById('outputText3');
-            
-            if (!inputText.trim() || !fromWord.trim()) {
-                outputTextarea.value = inputText;
-                updateCustomStats(0, fromWord, toWord);
-                return;
-            }
-            
-            // 정규식을 사용하여 전체 단어만 매치 (부분 문자열 방지)
-            const regex = new RegExp(escapeRegex(fromWord), 'g');
-            const matches = inputText.match(regex);
-            const matchCount = matches ? matches.length : 0;
-            
-            // 변환 작업
-            const convertedText = inputText.replace(regex, toWord || '');
-            
-            outputTextarea.value = convertedText;
-            updateCustomStats(matchCount, fromWord, toWord);
+            updateCustomStats(count1, count2);
         }
         
         function escapeRegex(string) {
             return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         }
         
-        function updateCustomStats(count, fromWord, toWord) {
-            document.getElementById('customCount').textContent = count;
-            const ruleText = (fromWord && toWord) ? `${fromWord} → ${toWord}` : '-';
-            document.getElementById('customRule').textContent = `규칙: ${ruleText}`;
-        }
-        
-        function clearConverter3() {
-            document.getElementById('fromWord').value = '';
-            document.getElementById('toWord').value = '';
-            document.getElementById('inputText3').value = '';
-            document.getElementById('outputText3').value = '';
-            document.getElementById('copyMessage3').textContent = '';
-            document.getElementById('copyMessage3').className = 'copy-message';
-            updateCustomStats(0, '', '');
-            document.getElementById('fromWord').focus();
-        }');
-        }
-        
-        function updateCustomStats(count1, count2, fromWord1, toWord1, fromWord2, toWord2) {
+        function updateCustomStats(count1, count2) {
             document.getElementById('customCount1').textContent = count1;
             document.getElementById('customCount2').textContent = count2;
-            document.getElementById('totalCustom').textContent = count1 + count2;
-            
-            let rules = [];
-            if (fromWord1 && toWord1) {
-                rules.push(`${fromWord1} → ${toWord1}`);
-            }
-            if (fromWord2 && toWord2) {
-                rules.push(`${fromWord2} → ${toWord2}`);
-            }
-            
-            const ruleText = rules.length > 0 ? rules.join(' | ') : '-';
-            document.getElementById('customRules').textContent = `규칙: ${ruleText}`;
+            document.getElementById('customTotalCount').textContent = count1 + count2;
         }
         
         function clearConverter3() {
@@ -674,7 +621,7 @@
             document.getElementById('outputText3').value = '';
             document.getElementById('copyMessage3').textContent = '';
             document.getElementById('copyMessage3').className = 'copy-message';
-            updateCustomStats(0, 0, '', '', '', '');
+            updateCustomStats(0, 0);
             document.getElementById('fromWord1').focus();
         }
 
