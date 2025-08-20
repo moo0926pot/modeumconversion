@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NPC/PC 텍스트 변환기</title>
+    <title>텍스트 변환기 모음</title>
     <style>
         * {
             margin: 0;
@@ -15,28 +15,31 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 20px;
         }
 
-        .container {
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .converter {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 30px;
+            padding: 25px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 800px;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         h1 {
             text-align: center;
             color: #4a5568;
-            margin-bottom: 30px;
-            font-size: 2rem;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
             font-weight: 700;
         }
 
@@ -44,14 +47,21 @@
             background: #e6fffa;
             border: 2px solid #81e6d9;
             border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 25px;
+            padding: 12px;
+            margin-bottom: 20px;
             text-align: center;
             color: #234e52;
+            font-size: 0.9rem;
+        }
+
+        .conversion-info.swap {
+            background: #fef5e7;
+            border-color: #f6ad55;
+            color: #744210;
         }
 
         .text-section {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         label {
@@ -59,16 +69,16 @@
             font-weight: 600;
             color: #4a5568;
             margin-bottom: 8px;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         textarea {
             width: 100%;
-            min-height: 150px;
-            padding: 15px;
+            min-height: 120px;
+            padding: 12px;
             border: 2px solid #e2e8f0;
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 14px;
             font-family: inherit;
             resize: vertical;
             transition: all 0.3s ease;
@@ -82,20 +92,21 @@
 
         .button-container {
             text-align: center;
-            margin: 25px 0;
+            margin: 20px 0;
         }
 
         button {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 12px 24px;
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            margin: 0 5px;
         }
 
         button:hover {
@@ -109,7 +120,6 @@
 
         .clear-btn {
             background: linear-gradient(135deg, #fc8181 0%, #f56565 100%);
-            margin-left: 15px;
             box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
         }
 
@@ -117,10 +127,19 @@
             box-shadow: 0 6px 20px rgba(245, 101, 101, 0.4);
         }
 
+        .swap-btn {
+            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+            box-shadow: 0 4px 15px rgba(237, 137, 54, 0.3);
+        }
+
+        .swap-btn:hover {
+            box-shadow: 0 6px 20px rgba(237, 137, 54, 0.4);
+        }
+
         .output-section {
             background: #f7fafc;
             border-radius: 10px;
-            padding: 15px;
+            padding: 12px;
             border: 2px solid #e2e8f0;
         }
 
@@ -136,9 +155,9 @@
             background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -155,7 +174,7 @@
         }
 
         .copy-message {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 600;
             opacity: 0;
             transition: opacity 0.3s ease;
@@ -175,87 +194,150 @@
             display: flex;
             justify-content: space-between;
             margin-top: 10px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #718096;
         }
 
-        @media (max-width: 600px) {
-            .container {
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .converter {
                 padding: 20px;
             }
             
             h1 {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .converter {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.2rem;
             }
             
             .button-container {
                 display: flex;
                 flex-direction: column;
-                gap: 10px;
+                gap: 8px;
             }
             
-            .clear-btn {
-                margin-left: 0;
+            button {
+                margin: 0;
             }
             
             .stats {
                 flex-direction: column;
                 gap: 5px;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>📝 NPC/PC 텍스트 변환기</h1>
-        
-        <div class="conversion-info">
-            <strong>변환 규칙:</strong> NPC → {{char}} | PC → {{user}}
-        </div>
+    <div class="main-container">
+        <!-- NPC/PC 변환기 -->
+        <div class="converter">
+            <h1>📝 NPC/PC 변환기</h1>
+            
+            <div class="conversion-info">
+                <strong>변환 규칙:</strong> NPC → {{char}} | PC → {{user}}
+            </div>
 
-        <div class="text-section">
-            <label for="inputText">원본 텍스트:</label>
-            <textarea 
-                id="inputText" 
-                placeholder="변환할 텍스트를 입력하세요...&#10;예: NPC가 PC에게 말했다."
-                oninput="convertText()"
-            ></textarea>
-        </div>
-
-        <div class="button-container">
-            <button onclick="convertText()">🔄 변환하기</button>
-            <button class="clear-btn" onclick="clearAll()">🗑️ 전체 지우기</button>
-        </div>
-
-        <div class="text-section">
-            <label for="outputText">변환된 텍스트:</label>
-            <div class="output-section">
+            <div class="text-section">
+                <label for="inputText1">원본 텍스트:</label>
                 <textarea 
-                    id="outputText" 
-                    placeholder="변환된 텍스트가 여기에 표시됩니다..."
-                    readonly
+                    id="inputText1" 
+                    placeholder="변환할 텍스트를 입력하세요...&#10;예: NPC가 PC에게 말했다."
+                    oninput="convertNpcPc()"
                 ></textarea>
-                <div class="copy-section">
-                    <button class="copy-btn" onclick="copyToClipboard()">📋 복사하기</button>
-                    <span id="copyMessage" class="copy-message"></span>
+            </div>
+
+            <div class="button-container">
+                <button onclick="convertNpcPc()">🔄 변환하기</button>
+                <button class="clear-btn" onclick="clearConverter1()">🗑️ 지우기</button>
+            </div>
+
+            <div class="text-section">
+                <label for="outputText1">변환된 텍스트:</label>
+                <div class="output-section">
+                    <textarea 
+                        id="outputText1" 
+                        placeholder="변환된 텍스트가 여기에 표시됩니다..."
+                        readonly
+                    ></textarea>
+                    <div class="copy-section">
+                        <button class="copy-btn" onclick="copyToClipboard('outputText1', 'copyMessage1')">📋 복사하기</button>
+                        <span id="copyMessage1" class="copy-message"></span>
+                    </div>
+                    <div class="stats">
+                        <span>NPC 변환: <span id="npcCount">0</span>개</span>
+                        <span>PC 변환: <span id="pcCount">0</span>개</span>
+                        <span>총 변환: <span id="totalCount1">0</span>개</span>
+                    </div>
                 </div>
-                <div class="stats">
-                    <span>NPC 변환: <span id="npcCount">0</span>개</span>
-                    <span>PC 변환: <span id="pcCount">0</span>개</span>
-                    <span>총 변환: <span id="totalCount">0</span>개</span>
+            </div>
+        </div>
+
+        <!-- {{user}} ↔ {{char}} 교체기 -->
+        <div class="converter">
+            <h1>🔄 User/Char 교체기</h1>
+            
+            <div class="conversion-info swap">
+                <strong>교체 규칙:</strong> {{user}} ↔ {{char}} 위치 서로 바꾸기
+            </div>
+
+            <div class="text-section">
+                <label for="inputText2">원본 텍스트:</label>
+                <textarea 
+                    id="inputText2" 
+                    placeholder="교체할 텍스트를 입력하세요...&#10;예: {{user}}가 {{char}}에게 말했다."
+                    oninput="swapUserChar()"
+                ></textarea>
+            </div>
+
+            <div class="button-container">
+                <button class="swap-btn" onclick="swapUserChar()">🔁 교체하기</button>
+                <button class="clear-btn" onclick="clearConverter2()">🗑️ 지우기</button>
+            </div>
+
+            <div class="text-section">
+                <label for="outputText2">교체된 텍스트:</label>
+                <div class="output-section">
+                    <textarea 
+                        id="outputText2" 
+                        placeholder="교체된 텍스트가 여기에 표시됩니다..."
+                        readonly
+                    ></textarea>
+                    <div class="copy-section">
+                        <button class="copy-btn" onclick="copyToClipboard('outputText2', 'copyMessage2')">📋 복사하기</button>
+                        <span id="copyMessage2" class="copy-message"></span>
+                    </div>
+                    <div class="stats">
+                        <span>{{user}} → {{char}}: <span id="userToCharCount">0</span>개</span>
+                        <span>{{char}} → {{user}}: <span id="charToUserCount">0</span>개</span>
+                        <span>총 교체: <span id="totalCount2">0</span>개</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        function convertText() {
-            const inputText = document.getElementById('inputText').value;
-            const outputTextarea = document.getElementById('outputText');
+        // NPC/PC 변환기 함수들
+        function convertNpcPc() {
+            const inputText = document.getElementById('inputText1').value;
+            const outputTextarea = document.getElementById('outputText1');
             
             if (!inputText.trim()) {
                 outputTextarea.value = '';
-                updateStats(0, 0);
+                updateNpcPcStats(0, 0);
                 return;
             }
             
@@ -274,27 +356,75 @@
             convertedText = convertedText.replace(/PC/g, '{{user}}');
             
             outputTextarea.value = convertedText;
-            updateStats(npcCount, pcCount);
+            updateNpcPcStats(npcCount, pcCount);
         }
         
-        function updateStats(npcCount, pcCount) {
+        function updateNpcPcStats(npcCount, pcCount) {
             document.getElementById('npcCount').textContent = npcCount;
             document.getElementById('pcCount').textContent = pcCount;
-            document.getElementById('totalCount').textContent = npcCount + pcCount;
+            document.getElementById('totalCount1').textContent = npcCount + pcCount;
         }
         
-        function clearAll() {
-            document.getElementById('inputText').value = '';
-            document.getElementById('outputText').value = '';
-            document.getElementById('copyMessage').textContent = '';
-            document.getElementById('copyMessage').className = 'copy-message';
-            updateStats(0, 0);
-            document.getElementById('inputText').focus();
+        function clearConverter1() {
+            document.getElementById('inputText1').value = '';
+            document.getElementById('outputText1').value = '';
+            document.getElementById('copyMessage1').textContent = '';
+            document.getElementById('copyMessage1').className = 'copy-message';
+            updateNpcPcStats(0, 0);
+            document.getElementById('inputText1').focus();
+        }
+
+        // User/Char 교체기 함수들
+        function swapUserChar() {
+            const inputText = document.getElementById('inputText2').value;
+            const outputTextarea = document.getElementById('outputText2');
+            
+            if (!inputText.trim()) {
+                outputTextarea.value = '';
+                updateSwapStats(0, 0);
+                return;
+            }
+            
+            // 임시 플레이스홀더 사용하여 충돌 방지
+            const tempPlaceholder = '___TEMP_PLACEHOLDER___';
+            
+            // {{user}} 개수 세기 (교체 전)
+            const userMatches = inputText.match(/\{\{user\}\}/g);
+            const userCount = userMatches ? userMatches.length : 0;
+            
+            // {{char}} 개수 세기 (교체 전)
+            const charMatches = inputText.match(/\{\{char\}\}/g);
+            const charCount = charMatches ? charMatches.length : 0;
+            
+            // 교체 작업
+            let swappedText = inputText
+                .replace(/\{\{user\}\}/g, tempPlaceholder)  // {{user}}를 임시로 교체
+                .replace(/\{\{char\}\}/g, '{{user}}')       // {{char}}를 {{user}}로
+                .replace(new RegExp(tempPlaceholder, 'g'), '{{char}}'); // 임시를 {{char}}로
+            
+            outputTextarea.value = swappedText;
+            updateSwapStats(userCount, charCount);
         }
         
-        async function copyToClipboard() {
-            const outputText = document.getElementById('outputText').value;
-            const copyMessage = document.getElementById('copyMessage');
+        function updateSwapStats(userCount, charCount) {
+            document.getElementById('userToCharCount').textContent = userCount;
+            document.getElementById('charToUserCount').textContent = charCount;
+            document.getElementById('totalCount2').textContent = userCount + charCount;
+        }
+        
+        function clearConverter2() {
+            document.getElementById('inputText2').value = '';
+            document.getElementById('outputText2').value = '';
+            document.getElementById('copyMessage2').textContent = '';
+            document.getElementById('copyMessage2').className = 'copy-message';
+            updateSwapStats(0, 0);
+            document.getElementById('inputText2').focus();
+        }
+
+        // 공통 복사 함수
+        async function copyToClipboard(outputId, messageId) {
+            const outputText = document.getElementById(outputId).value;
+            const copyMessage = document.getElementById(messageId);
             
             if (!outputText.trim()) {
                 copyMessage.textContent = '복사할 텍스트가 없습니다';
@@ -335,9 +465,9 @@
             }, 2000);
         }
         
-        // 페이지 로드 시 입력 필드에 포커스
+        // 페이지 로드 시 첫 번째 입력 필드에 포커스
         window.onload = function() {
-            document.getElementById('inputText').focus();
+            document.getElementById('inputText1').focus();
         };
     </script>
 </body>
