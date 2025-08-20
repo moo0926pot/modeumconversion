@@ -20,9 +20,9 @@
 
         .main-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            max-width: 1400px;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            max-width: 1800px;
             margin: 0 auto;
         }
 
@@ -30,7 +30,7 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 25px;
+            padding: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
@@ -38,8 +38,8 @@
         h1 {
             text-align: center;
             color: #4a5568;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
             font-weight: 700;
         }
 
@@ -47,11 +47,11 @@
             background: #e6fffa;
             border: 2px solid #81e6d9;
             border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 20px;
+            padding: 10px;
+            margin-bottom: 15px;
             text-align: center;
             color: #234e52;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .conversion-info.swap {
@@ -60,25 +60,62 @@
             color: #744210;
         }
 
+        .conversion-info.custom {
+            background: #f0fff4;
+            border-color: #68d391;
+            color: #22543d;
+        }
+
+        .custom-input-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .custom-input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .custom-input-group label {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .custom-input-group input {
+            padding: 8px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .custom-input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
         .text-section {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         label {
             display: block;
             font-weight: 600;
             color: #4a5568;
-            margin-bottom: 8px;
-            font-size: 1rem;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
         }
 
         textarea {
             width: 100%;
-            min-height: 120px;
-            padding: 12px;
+            min-height: 100px;
+            padding: 10px;
             border: 2px solid #e2e8f0;
             border-radius: 10px;
-            font-size: 14px;
+            font-size: 13px;
             font-family: inherit;
             resize: vertical;
             transition: all 0.3s ease;
@@ -92,21 +129,21 @@
 
         .button-container {
             text-align: center;
-            margin: 20px 0;
+            margin: 15px 0;
         }
 
         button {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: 10px;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-            margin: 0 5px;
+            margin: 0 3px;
         }
 
         button:hover {
@@ -136,10 +173,19 @@
             box-shadow: 0 6px 20px rgba(237, 137, 54, 0.4);
         }
 
+        .custom-btn {
+            background: linear-gradient(135deg, #38b2ac 0%, #319795 100%);
+            box-shadow: 0 4px 15px rgba(56, 178, 172, 0.3);
+        }
+
+        .custom-btn:hover {
+            box-shadow: 0 6px 20px rgba(56, 178, 172, 0.4);
+        }
+
         .output-section {
             background: #f7fafc;
             border-radius: 10px;
-            padding: 12px;
+            padding: 10px;
             border: 2px solid #e2e8f0;
         }
 
@@ -147,17 +193,17 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
-            margin: 15px 0;
+            gap: 8px;
+            margin: 12px 0;
         }
 
         .copy-btn {
             background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
             color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 6px 12px;
             border-radius: 8px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -174,7 +220,7 @@
         }
 
         .copy-message {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             opacity: 0;
             transition: opacity 0.3s ease;
@@ -193,29 +239,38 @@
         .stats {
             display: flex;
             justify-content: space-between;
-            margin-top: 10px;
-            font-size: 0.8rem;
+            margin-top: 8px;
+            font-size: 0.75rem;
             color: #718096;
+            flex-wrap: wrap;
+            gap: 5px;
         }
 
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
+            .main-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+            
+            .converter:last-child {
+                grid-column: 1 / -1;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 768px) {
             .main-container {
                 grid-template-columns: 1fr;
-                gap: 30px;
+                gap: 25px;
             }
             
-            .converter {
-                padding: 20px;
-            }
-            
-            h1 {
-                font-size: 1.3rem;
-            }
-        }
-
-        @media (max-width: 600px) {
             .converter {
                 padding: 15px;
+            }
+            
+            .converter:last-child {
+                grid-column: auto;
             }
             
             h1 {
@@ -234,7 +289,7 @@
             
             .stats {
                 flex-direction: column;
-                gap: 5px;
+                gap: 3px;
                 text-align: center;
             }
         }
@@ -277,9 +332,9 @@
                         <span id="copyMessage1" class="copy-message"></span>
                     </div>
                     <div class="stats">
-                        <span>NPC 변환: <span id="npcCount">0</span>개</span>
-                        <span>PC 변환: <span id="pcCount">0</span>개</span>
-                        <span>총 변환: <span id="totalCount1">0</span>개</span>
+                        <span>NPC: <span id="npcCount">0</span>개</span>
+                        <span>PC: <span id="pcCount">0</span>개</span>
+                        <span>총: <span id="totalCount1">0</span>개</span>
                     </div>
                 </div>
             </div>
@@ -320,9 +375,95 @@
                         <span id="copyMessage2" class="copy-message"></span>
                     </div>
                     <div class="stats">
-                        <span>{{user}} → {{char}}: <span id="userToCharCount">0</span>개</span>
-                        <span>{{char}} → {{user}}: <span id="charToUserCount">0</span>개</span>
-                        <span>총 교체: <span id="totalCount2">0</span>개</span>
+                        <span>{{user}}→{{char}}: <span id="userToCharCount">0</span>개</span>
+                        <span>{{char}}→{{user}}: <span id="charToUserCount">0</span>개</span>
+                        <span>총: <span id="totalCount2">0</span>개</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 커스텀 변환기 -->
+        <div class="converter">
+            <h1>⚙️ 커스텀 변환기</h1>
+            
+            <div class="conversion-info custom">
+                <strong>커스텀 규칙:</strong> 원하는 단어를 자유롭게 변환
+            </div>
+
+            <div class="custom-input-section">
+                <div class="custom-input-group">
+                    <label for="fromWord1">변환할 단어 (A):</label>
+                    <input 
+                        type="text" 
+                        id="fromWord1" 
+                        placeholder="예: 안녕"
+                        oninput="convertCustom()"
+                    >
+                </div>
+                <div class="custom-input-group">
+                    <label for="toWord1">변환될 단어 (B):</label>
+                    <input 
+                        type="text" 
+                        id="toWord1" 
+                        placeholder="예: Hello"
+                        oninput="convertCustom()"
+                    >
+                </div>
+            </div>
+
+            <div class="custom-input-section">
+                <div class="custom-input-group">
+                    <label for="fromWord2">변환할 단어 (C):</label>
+                    <input 
+                        type="text" 
+                        id="fromWord2" 
+                        placeholder="예: 고양이"
+                        oninput="convertCustom()"
+                    >
+                </div>
+                <div class="custom-input-group">
+                    <label for="toWord2">변환될 단어 (D):</label>
+                    <input 
+                        type="text" 
+                        id="toWord2" 
+                        placeholder="예: cat"
+                        oninput="convertCustom()"
+                    >
+                </div>
+            </div>
+
+            <div class="text-section">
+                <label for="inputText3">원본 텍스트:</label>
+                <textarea 
+                    id="inputText3" 
+                    placeholder="변환할 텍스트를 입력하세요...&#10;예: 안녕하세요, 고양이가 좋아요."
+                    oninput="convertCustom()"
+                ></textarea>
+            </div>
+
+            <div class="button-container">
+                <button class="custom-btn" onclick="convertCustom()">🛠️ 변환하기</button>
+                <button class="clear-btn" onclick="clearConverter3()">🗑️ 지우기</button>
+            </div>
+
+            <div class="text-section">
+                <label for="outputText3">변환된 텍스트:</label>
+                <div class="output-section">
+                    <textarea 
+                        id="outputText3" 
+                        placeholder="변환된 텍스트가 여기에 표시됩니다..."
+                        readonly
+                    ></textarea>
+                    <div class="copy-section">
+                        <button class="copy-btn" onclick="copyToClipboard('outputText3', 'copyMessage3')">📋 복사하기</button>
+                        <span id="copyMessage3" class="copy-message"></span>
+                    </div>
+                    <div class="stats">
+                        <span>A→B: <span id="customCount1">0</span>개</span>
+                        <span>C→D: <span id="customCount2">0</span>개</span>
+                        <span>총: <span id="totalCustom">0</span>개</span>
+                        <div id="customRules">규칙: -</div>
                     </div>
                 </div>
             </div>
@@ -419,6 +560,122 @@
             document.getElementById('copyMessage2').className = 'copy-message';
             updateSwapStats(0, 0);
             document.getElementById('inputText2').focus();
+        }
+
+        // 커스텀 변환기 함수들
+        function convertCustom() {
+            const fromWord1 = document.getElementById('fromWord1').value;
+            const toWord1 = document.getElementById('toWord1').value;
+            const fromWord2 = document.getElementById('fromWord2').value;
+            const toWord2 = document.getElementById('toWord2').value;
+            const inputText = document.getElementById('inputText3').value;
+            const outputTextarea = document.getElementById('outputText3');
+            
+            if (!inputText.trim()) {
+                outputTextarea.value = '';
+                updateCustomStats(0, 0, fromWord1, toWord1, fromWord2, toWord2);
+                return;
+            }
+            
+            let convertedText = inputText;
+            let count1 = 0, count2 = 0;
+            
+            // 첫 번째 변환 (A -> B)
+            if (fromWord1.trim()) {
+                const regex1 = new RegExp(escapeRegex(fromWord1), 'g');
+                const matches1 = convertedText.match(regex1);
+                count1 = matches1 ? matches1.length : 0;
+                convertedText = convertedText.replace(regex1, toWord1 || '');
+            }
+            
+            // 두 번째 변환 (C -> D)
+            if (fromWord2.trim()) {
+                const regex2 = new RegExp(escapeRegex(fromWord2), 'g');
+                const matches2 = convertedText.match(regex2);
+                count2 = matches2 ? matches2.length : 0;
+                convertedText = convertedText.replace(regex2, toWord2 || '');
+            }
+            
+            outputTextarea.value = convertedText;
+            updateCustomStats(count1, count2, fromWord1, toWord1, fromWord2, toWord2);
+        }
+        
+        function escapeRegex(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\        // 커스텀 변환기 함수들
+        function convertCustom() {
+            const fromWord = document.getElementById('fromWord').value;
+            const toWord = document.getElementById('toWord').value;
+            const inputText = document.getElementById('inputText3').value;
+            const outputTextarea = document.getElementById('outputText3');
+            
+            if (!inputText.trim() || !fromWord.trim()) {
+                outputTextarea.value = inputText;
+                updateCustomStats(0, fromWord, toWord);
+                return;
+            }
+            
+            // 정규식을 사용하여 전체 단어만 매치 (부분 문자열 방지)
+            const regex = new RegExp(escapeRegex(fromWord), 'g');
+            const matches = inputText.match(regex);
+            const matchCount = matches ? matches.length : 0;
+            
+            // 변환 작업
+            const convertedText = inputText.replace(regex, toWord || '');
+            
+            outputTextarea.value = convertedText;
+            updateCustomStats(matchCount, fromWord, toWord);
+        }
+        
+        function escapeRegex(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+        
+        function updateCustomStats(count, fromWord, toWord) {
+            document.getElementById('customCount').textContent = count;
+            const ruleText = (fromWord && toWord) ? `${fromWord} → ${toWord}` : '-';
+            document.getElementById('customRule').textContent = `규칙: ${ruleText}`;
+        }
+        
+        function clearConverter3() {
+            document.getElementById('fromWord').value = '';
+            document.getElementById('toWord').value = '';
+            document.getElementById('inputText3').value = '';
+            document.getElementById('outputText3').value = '';
+            document.getElementById('copyMessage3').textContent = '';
+            document.getElementById('copyMessage3').className = 'copy-message';
+            updateCustomStats(0, '', '');
+            document.getElementById('fromWord').focus();
+        }');
+        }
+        
+        function updateCustomStats(count1, count2, fromWord1, toWord1, fromWord2, toWord2) {
+            document.getElementById('customCount1').textContent = count1;
+            document.getElementById('customCount2').textContent = count2;
+            document.getElementById('totalCustom').textContent = count1 + count2;
+            
+            let rules = [];
+            if (fromWord1 && toWord1) {
+                rules.push(`${fromWord1} → ${toWord1}`);
+            }
+            if (fromWord2 && toWord2) {
+                rules.push(`${fromWord2} → ${toWord2}`);
+            }
+            
+            const ruleText = rules.length > 0 ? rules.join(' | ') : '-';
+            document.getElementById('customRules').textContent = `규칙: ${ruleText}`;
+        }
+        
+        function clearConverter3() {
+            document.getElementById('fromWord1').value = '';
+            document.getElementById('toWord1').value = '';
+            document.getElementById('fromWord2').value = '';
+            document.getElementById('toWord2').value = '';
+            document.getElementById('inputText3').value = '';
+            document.getElementById('outputText3').value = '';
+            document.getElementById('copyMessage3').textContent = '';
+            document.getElementById('copyMessage3').className = 'copy-message';
+            updateCustomStats(0, 0, '', '', '', '');
+            document.getElementById('fromWord1').focus();
         }
 
         // 공통 복사 함수
