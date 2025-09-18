@@ -531,11 +531,11 @@
             const tempPlaceholder = '___TEMP_PLACEHOLDER___';
             
             // {{user}} 개수 세기 (교체 전)
-            const userMatches = inputText.match(/\{\{user\}\}/g);
+            const userMatches = inputText.match(/\{\{user\}\}/gi);
             const userCount = userMatches ? userMatches.length : 0;
             
             // {{char}} 개수 세기 (교체 전)
-            const charMatches = inputText.match(/\{\{char\}\}/g);
+            const charMatches = inputText.match(/\{\{char\}\}/gi);
             const charCount = charMatches ? charMatches.length : 0;
             
             // 교체 작업
@@ -676,3 +676,4 @@
     </script>
 </body>
 </html>
+
