@@ -540,9 +540,9 @@
             
             // 교체 작업
             let swappedText = inputText
-                .replace(/\{\{user\}\}/g, tempPlaceholder)  // {{user}}를 임시로 교체
-                .replace(/\{\{char\}\}/g, '{{user}}')       // {{char}}를 {{user}}로
-                .replace(new RegExp(tempPlaceholder, 'g'), '{{char}}'); // 임시를 {{char}}로
+                .replace(/\{\{user\}\}/gi, tempPlaceholder)  // {{user}}를 임시로 교체
+                .replace(/\{\{char\}\}/gi, '{{user}}')       // {{char}}를 {{user}}로
+                .replace(new RegExp(tempPlaceholder, 'gi'), '{{char}}'); // 임시를 {{char}}로
             
             outputTextarea.value = swappedText;
             updateSwapStats(userCount, charCount);
@@ -676,4 +676,5 @@
     </script>
 </body>
 </html>
+
 
